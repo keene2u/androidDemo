@@ -43,6 +43,8 @@ public class MyCursorAdapter extends CursorAdapter {
      * special with a CursorAdapter for row recycling if you are overriding newView() and bindView().
      */
     @Override
+
+    ////only first time will be call, after first time, then it just alway call bindView
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         nameColIndex = cursor.getColumnIndexOrThrow(DatabaseProvider.COL_NAME);
         imageColIndex = cursor.getColumnIndexOrThrow(DatabaseProvider.COL_IMAGE);

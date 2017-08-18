@@ -41,26 +41,31 @@ public class DatabaseProvider extends ContentProvider {
             COL_NAME + " text not null, " +
             COL_IMAGE + " integer not null);";
     private MySQLiteOpenHelper dbHelper;
-
+    ////below is helper class to create SQL db
     private class MySQLiteOpenHelper extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "database.db";
         private static final int DATABASE_VERSION = 1;
-
+        ////prepare contructor below
         public MySQLiteOpenHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
 
         /* called when database is created for the first time */
         @Override
+        //// read / write to database, only this SQLiteDatabase class
         public void onCreate(SQLiteDatabase db) {
             try {
                 // multiple statements separated by semicolons are not supported in execSQL() method
-                db.execSQL(SQL_CREATE_TABLE);
+                // // cannot create multiple table, must use one by one
+                db.execSQL(SQL_CREATE_TABLE);  //// can insert, update, delete, but cannot query
 
                 // batch insert dummy data to the table
-                db.beginTransaction();
+                db.beginTransaction(); //// using this db.beginTransaction and setTransactionSuccessful
+                //// it will rollback, if in between got error, finally endTransaction in finally
                 for (int i = 0; i< Dummy.NAMES.length; i++) {
+
                     ContentValues contentValues = new ContentValues();
+                    //// columns name, then value
                     contentValues.put(COL_NAME, Dummy.NAMES[i]);
                     contentValues.put(COL_IMAGE, Dummy.DRAWABLES[i]);
 
@@ -69,6 +74,8 @@ public class DatabaseProvider extends ContentProvider {
                     // (if you instead set this to "null", then the framework will not insert a row
                     // when there are no values).
                     db.insert(TABLENAME, null, contentValues);
+                    //// below is to delete
+                    //// db.delete()
                 }
                 db.setTransactionSuccessful();
 
@@ -132,6 +139,8 @@ public class DatabaseProvider extends ContentProvider {
      * the code that is returned when a URI is matched
      * against the given components. Must be positive.
      */
+
+    /*must have 2x unique value, which must be unique along the whole db */
     public static final int RECORDS = 1;
     public static final int RECORDS_ID = 2;
     /**
@@ -144,6 +153,7 @@ public class DatabaseProvider extends ContentProvider {
      * The type value is always fix. The subtype is provider-specific which usually based on the 
      * provider's authority and table names.
      */
+    /*vnd.android.cursor.dir   => is fixed, cannot change, which represent multiple rows*/
     public static final String MIME_CONTENT_TYPE = "vnd.android.cursor.dir/" // For multiple rows
             + "vnd.codeplay.training.datebase_demo." + TABLENAME;
     public static final String MIME_CONTENT_ITEM = "vnd.android.cursor.item/" // for single row

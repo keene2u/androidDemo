@@ -54,7 +54,7 @@ public class DatabaseDemoActivity extends AppCompatActivity {
             myCursorAdapter.changeCursor(null);
             myCursorAdapter = null;
         }
-
+        ////if not close cursor, it will leak out your app memory
         if (cursor!=null && !cursor.isClosed()) {
             cursor.close();
             cursor = null;

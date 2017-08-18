@@ -77,7 +77,7 @@
             </intent-filter>
         </receiver>
           -->
-        
+        <!--below is the purpose of authority -->
         <provider
             android:authorities="my.com.codeplay.android_demo.data"
             android:name=".storages.DatabaseProvider"
