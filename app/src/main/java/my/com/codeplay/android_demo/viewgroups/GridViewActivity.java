@@ -33,13 +33,14 @@ import java.util.List;
 import my.com.codeplay.android_demo.R;
 
 public class GridViewActivity extends AppCompatActivity {
+    ////detect in list, which appslist in phone
     private List<ResolveInfo> appsList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gridview);
-
+        ////load the apps
         loadApps();
 
         GridView gridView = (GridView) findViewById(R.id.gridview);
@@ -47,9 +48,10 @@ public class GridViewActivity extends AppCompatActivity {
     }
 
     private void loadApps() {
+        ////create intent, and set the action main n launcher, so can view at application drawer, user can see
         Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-
+        ////if those app got category launcher n action, then will display as below
         appsList = getPackageManager().queryIntentActivities(mainIntent, 0);
     }
 

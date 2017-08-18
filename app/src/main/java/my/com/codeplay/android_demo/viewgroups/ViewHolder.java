@@ -22,3 +22,4 @@ public class ViewHolder {
     public ImageView image;
     public TextView text;
 }
+
